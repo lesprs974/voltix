@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RIDEUP — Accessoires Trottinette</title>
+  <meta name="description" content="Accessoires modernes pour trottinettes électriques.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="#accueil">RIDE<span>UP</span></a>
+  <nav>
+    <a href="#boutique">Boutique</a>
+    <a href="#avantages">Pourquoi nous</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="cart-btn" onclick="openCart()">Panier <b id="cartCount">0</b></button>
+</header>
+
+<main>
+<section class="hero" id="accueil">
+  <div class="hero-copy">
+    <p class="eyebrow">ACCESSOIRES • TROTTINETTES ÉLECTRIQUES</p>
+    <h1>Équipe ta trot.<br><em>Roulez mieux.</em></h1>
+    <p class="hero-text">Des accessoires stylés, pratiques et pensés pour les riders qui veulent personnaliser leur trottinette.</p>
+    <a class="primary" href="#boutique">Voir la boutique <span>→</span></a>
+  </div>
+  <div class="hero-card">
+    <div class="circle"></div>
+    <img src="images/produit-3.jpeg" alt="Support téléphone aluminium">
+    <div class="floating">NOUVEAUTÉ<br><strong>RIDER GEAR</strong></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div><strong>100%</strong><span>Style rider</span></div>
+  <div><strong>⚡</strong><span>Expédition rapide</span></div>
+  <div><strong>✓</strong><span>Produits sélectionnés</span></div>
+</section>
+
+<section class="shop" id="boutique">
+  <div class="section-head">
+    <div><p class="eyebrow">LA COLLECTION</p><h2>Les indispensables</h2></div>
+    <p>Choisis ton accessoire et ajoute-le au panier.</p>
+  </div>
+  <div class="products">
+    <article class="product">
+      <div class="product-img"><img src="images/produit-1.jpeg" alt="Embouts de valve aluminium"></div>
+      <div class="product-info">
+        <span class="tag">PERSONNALISATION</span>
+        <h3>Embouts de valve aluminium</h3>
+        <p>Plusieurs couleurs pour donner du style à ta trott.</p>
+        <div class="buy"><strong>9,90 €</strong><button onclick="addToCart('Embouts de valve aluminium',9.90,'images/produit-1.jpeg')">Ajouter</button></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><img src="images/produit-2.jpeg" alt="Gaine spiralée de câble"></div>
+      <div class="product-info">
+        <span class="tag">PROTECTION</span>
+        <h3>Gaine spiralée de câble</h3>
+        <p>Une finition propre et colorée pour ton installation.</p>
+        <div class="buy"><strong>7,90 €</strong><button onclick="addToCart('Gaine spiralée de câble',7.90,'images/produit-2.jpeg')">Ajouter</button></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><img src="images/produit-3.jpeg" alt="Support téléphone aluminium"></div>
+      <div class="product-info">
+        <span class="tag">BEST-SELLER</span>
+        <h3>Support téléphone aluminium</h3>
+        <p>Support réglable, anti-vibration et pensé pour le guidon.</p>
+        <div class="buy"><strong>19,90 €</strong><button onclick="addToCart('Support téléphone aluminium',19.90,'images/produit-3.jpeg')">Ajouter</button></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="why" id="avantages">
+  <div><p class="eyebrow">POURQUOI RIDEUP ?</p><h2>Simple. Propre.<br>100% rider.</h2></div>
+  <div class="why-grid">
+    <div><span>01</span><h3>Look personnalisé</h3><p>Des accessoires qui transforment ta trott en vraie machine de rider.</p></div>
+    <div><span>02</span><h3>Produits utiles</h3><p>On privilégie les accessoires pratiques, pas seulement décoratifs.</p></div>
+    <div><span>03</span><h3>Service rapide</h3><p>Une boutique claire et simple pour commander sans prise de tête.</p></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <p class="eyebrow">UNE QUESTION ?</p>
+  <h2>On est là pour t'aider.</h2>
+  <p>Remplace cette adresse par ton Instagram, ton WhatsApp ou ton e-mail.</p>
+  <a class="secondary" href="mailto:contact@rideup.fr">contact@rideup.fr</a>
+</section>
+</main>
+
+<footer><div class="logo">RIDE<span>UP</span></div><p>© 2026 RIDEUP — Accessoires trottinette</p></footer>
+
+<div class="overlay" id="overlay" onclick="closeCart(event)">
+  <aside class="cart" onclick="event.stopPropagation()">
+    <div class="cart-head"><h2>Ton panier</h2><button onclick="closeCart()">×</button></div>
+    <div id="cartItems"></div>
+    <div class="cart-bottom"><div><span>Total</span><strong id="total">0,00 €</strong></div><button class="checkout" onclick="checkout()">Commander</button></div>
+  </aside>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('rideupCart') || '[]');
+function save(){localStorage.setItem('rideupCart',JSON.stringify(cart)); render();}
+function addToCart(name,price,img){cart.push({name,price,img});save();openCart();}
+function removeItem(i){cart.splice(i,1);save();}
+function render(){
+  document.getElementById('cartCount').textContent=cart.length;
+  const box=document.getElementById('cartItems');
+  box.innerHTML=cart.length?cart.map((p,i)=>`<div class="cart-item"><img src="${p.img}"><div><b>${p.name}</b><span>${p.price.toFixed(2).replace('.',',')} €</span><button onclick="removeItem(${i})">Supprimer</button></div></div>`).join(''):'<div class="empty">Ton panier est vide.</div>';
+  document.getElementById('total').textContent=cart.reduce((s,p)=>s+p.price,0).toFixed(2).replace('.',',')+' €';
+}
+function openCart(){document.getElementById('overlay').classList.add('open');render();}
+function closeCart(e){if(!e||e.target.id==='overlay')document.getElementById('overlay').classList.remove('open');}
+function checkout(){
+  if(!cart.length){alert('Ton panier est vide.');return;}
+  alert('Bouton de commande prêt ! Pour encaisser réellement, il faudra connecter Stripe/PayPal ou ton système de paiement.');
+}
+render();
+</script>
+</body>
+</html>
